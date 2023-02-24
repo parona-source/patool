@@ -1,0 +1,36 @@
+name: Build and Test patool
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8','3.9','3.10','3.11']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install archmage arj bzip2 lbzip2 pbzip2 cabextract ncompress cpio lzop lcab p7zip p7zip-full zip unzip rpm2cpio binutils arc nomarch unalz lrzip rzip xdms lzip plzip clzip pdlzip sharutils flac unadf zpaq libchm-bin genisoimage pigz rpm unace-nonfree libarchive-tools zopfli lhasa rar unrar p7zip-rar
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+      - name: Build
+        run: |
+          python setup.py build
+      - name: Test
+        run: |
+          pytest --cov=./ --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage1.xml,./coverage2.xml
+          flags: unittests
+          verbose: true
