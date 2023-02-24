@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from . import ArchiveTest
 from .. import needs_program
+import pytest
 
 class TestRar (ArchiveTest):
 
@@ -23,12 +24,19 @@ class TestRar (ArchiveTest):
     @needs_program(program)
     def test_rar(self):
         self.archive_commands(self.filename + '.rar')
+
+    @needs_program(program)
+    def test_cbr(self):
         self.archive_commands(self.filename + '.cbr')
 
     @needs_program('file')
     @needs_program(program)
     def test_rar_file(self):
         self.archive_commands(self.filename + '.rar.foo', skip_create=True)
+
+    @needs_program('file')
+    @needs_program(program)
+    def test_cbr_file(self):
         self.archive_commands(self.filename + '.cbr.foo', skip_create=True)
 
 
@@ -36,3 +44,9 @@ class TestRarPassword (TestRar):
 
     filename = 'p'
     password = 'thereisnotry'
+
+    def test_cbr(self):
+        pytest.skip("Password protected CBR file not added to repository")
+
+    def test_cbr_file(self):
+        pytest.skip("Password protected CBR file not added to repository")
