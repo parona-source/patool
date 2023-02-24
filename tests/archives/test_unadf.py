@@ -14,14 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from . import ArchiveTest
-from .. import needs_program, skip_on_travis
+from .. import needs_program
 
 class TestUnadf (ArchiveTest):
 
     program = 'unadf'
 
     # On a Travis CI build the test fails.
-    @skip_on_travis()
     @needs_program(program)
     def test_unadf(self):
         self.archive_extract('t.adf', check=None)
@@ -29,7 +28,6 @@ class TestUnadf (ArchiveTest):
         self.archive_test('t.adf')
 
     # On a Travis CI build the test fails.
-    @skip_on_travis()
     @needs_program('file')
     @needs_program(program)
     def test_unadf_file(self):
