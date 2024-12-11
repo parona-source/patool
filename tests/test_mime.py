@@ -101,20 +101,17 @@ class TestMime(unittest.TestCase):
         self.mime_test_file("t.tar.foo", "application/x-tar")
         self.mime_test_file("t.cbt", "application/x-tar")
         self.mime_test_file("t.cbt.foo", "application/x-tar")
-        # fails on ubuntu-latest github ci
-        # self.mime_test_file("t.tar.lz", "application/x-tar", "lzip")
+        self.mime_test_file("t.tar.lz", "application/x-tar", "lzip")
         self.mime_test_file("t.tar.bz2", "application/x-tar", "bzip2")
         self.mime_test_file("t.tbz2", "application/x-tar", "bzip2")
         self.mime_test_file("t.tar.gz", "application/x-tar", "gzip")
         self.mime_test_file("t.taz", "application/x-tar", "gzip")
         self.mime_test_file("t.tgz", "application/x-tar", "gzip")
-        # fails on windows-latest github ci
-        # self.mime_test_file("t.tar.xz", "application/x-tar", "xz")
-        # self.mime_test_file("t.tar.Z", "application/x-tar", "compress")
-        # self.mime_test_file("t.tar.lzma", "application/x-tar", "lzma")
-        # self.mime_test_file("t.tar.zst", "application/x-tar", "zstd")
-        # file(1) cannot uncompress .lzma files
-        # self.mime_test_file("t.tar.lzma.foo", "application/x-tar", "lzma")
+        self.mime_test_file("t.tar.xz", "application/x-tar", "xz")
+        self.mime_test_file("t.tar.Z", "application/x-tar", "compress")
+        self.mime_test_file("t.tar.lzma", "application/x-tar", "lzma")
+        self.mime_test_file("t.tar.zst", "application/x-tar", "zstd")
+        self.mime_test_file("t.tar.lzma.foo", "application/x-tar", "lzma")
         self.mime_test_file("t.txt.xz", "application/x-xz")
         self.mime_test_file("t.txt.xz.foo", "application/x-xz")
         self.mime_test_file("t.txt.Z", "application/x-compress")
@@ -131,9 +128,8 @@ class TestMime(unittest.TestCase):
         self.mime_test_file("t.ace.foo", "application/x-ace")
         self.mime_test_file("t.cba", "application/x-ace")
         self.mime_test_file("t.cba.foo", "application/x-ace")
-        # fixme: test errors on windows
-        # self.mime_test_file("t.txt.a", "application/x-archive")
-        # self.mime_test_file("t.txt.a.foo", "application/x-archive")
+        self.mime_test_file("t.txt.a", "application/x-archive")
+        self.mime_test_file("t.txt.a.foo", "application/x-archive")
         self.mime_test_file("t.lha", "application/x-lha")
         self.mime_test_file("t.lzh", "application/x-lha")
         self.mime_test_file("t.lha.foo", "application/x-lha")
@@ -179,11 +175,10 @@ class TestMime(unittest.TestCase):
         self.mime_test_file("t.zpaq", "application/zpaq")
         self.mime_test_file("t.zpaq.foo", "application/zpaq")
 
-    # fixme: broken tests
-    # @needs_program('file')
-    # @needs_program('lzip')
-    # def test_mime_file_lzip(self):
-    #    self.mime_test_file("t.tar.lz.foo", "application/x-tar", "lzip")
+    @needs_program('file')
+    @needs_program('lzip')
+    def test_mime_file_lzip(self):
+       self.mime_test_file("t.tar.lz.foo", "application/x-tar", "lzip")
 
     @needs_program('file')
     @needs_program('bzip2')
@@ -208,26 +203,23 @@ class TestMime(unittest.TestCase):
         self.mime_test_file("t.taz.foo", "application/x-tar", "gzip")
         self.mime_test_file("t.tgz.foo", "application/x-tar", "gzip")
 
-    # fixme: broken tests
-    # @needs_program('file')
-    # @needs_program('xz')
-    # def test_mime_file_xzip(self):
-    #    """Test mime detection of TAR XZ archives"""
-    #    self.mime_test_file("t.tar.xz.foo", "application/x-tar", "xz")
+    @needs_program('file')
+    @needs_program('xz')
+    def test_mime_file_xzip(self):
+       """Test mime detection of TAR XZ archives"""
+       self.mime_test_file("t.tar.xz.foo", "application/x-tar", "xz")
 
-    # fixme: broken tests
-    # @needs_program("file")
-    # @needs_program("zstd")
-    # def test_mime_file_zstd(self):
-    #    """Test mime detection of TAR ZSTD archives"""
-    #    self.mime_test_file("t.tar.zst.foo", "application/x-tar", "zstd")
+    @needs_program("file")
+    @needs_program("zstd")
+    def test_mime_file_zstd(self):
+       """Test mime detection of TAR ZSTD archives"""
+       self.mime_test_file("t.tar.zst.foo", "application/x-tar", "zstd")
 
-    # fixme: broken tests
-    # @needs_program('file')
-    # @needs_program('uncompress')
-    # def test_mime_file_compress(self):
-    #    """Test mime detection of TAR COMPRESS archives"""
-    #    self.mime_test_file("t.tar.Z.foo", "application/x-tar", "compress")
+    @needs_program('file')
+    @needs_program('uncompress')
+    def test_mime_file_compress(self):
+       """Test mime detection of TAR COMPRESS archives"""
+       self.mime_test_file("t.tar.Z.foo", "application/x-tar", "compress")
 
     def test_mime_mimedb(self):
         """Test mime detection of different archives with mime DB"""
